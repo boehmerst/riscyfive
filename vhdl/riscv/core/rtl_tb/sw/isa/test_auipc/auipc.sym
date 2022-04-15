@@ -1,0 +1,9 @@
+         U a1
+00000000 T _start
+00000010 t test_2
+00000030 t test_3
+00000054 t fail
+0000006c t pass
+00000080 A _end
+00000080 T begin_signature
+00000080 T end_signature

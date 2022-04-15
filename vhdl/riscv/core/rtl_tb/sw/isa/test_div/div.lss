@@ -1,0 +1,101 @@
+
+div.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000110  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+
+00000010 <test_2>:
+  10:	01400093          	li	ra,20
+  14:	00600113          	li	s0,6
+  18:	0220c1b3          	div	s1,ra,s0
+  1c:	00300e93          	li	t3,3
+  20:	00200e13          	li	t2,2
+  24:	0dd19463          	bne	s1,t3,ec <fail>
+
+00000028 <test_3>:
+  28:	fec00093          	li	ra,-20
+  2c:	00600113          	li	s0,6
+  30:	0220c1b3          	div	s1,ra,s0
+  34:	ffd00e93          	li	t3,-3
+  38:	00300e13          	li	t2,3
+  3c:	0bd19863          	bne	s1,t3,ec <fail>
+
+00000040 <test_4>:
+  40:	01400093          	li	ra,20
+  44:	ffa00113          	li	s0,-6
+  48:	0220c1b3          	div	s1,ra,s0
+  4c:	ffd00e93          	li	t3,-3
+  50:	00400e13          	li	t2,4
+  54:	09d19c63          	bne	s1,t3,ec <fail>
+
+00000058 <test_5>:
+  58:	fec00093          	li	ra,-20
+  5c:	ffa00113          	li	s0,-6
+  60:	0220c1b3          	div	s1,ra,s0
+  64:	00300e93          	li	t3,3
+  68:	00500e13          	li	t2,5
+  6c:	09d19063          	bne	s1,t3,ec <fail>
+
+00000070 <test_6>:
+  70:	00000093          	li	ra,0
+  74:	00100113          	li	s0,1
+  78:	0220c1b3          	div	s1,ra,s0
+  7c:	00000e93          	li	t3,0
+  80:	00600e13          	li	t2,6
+  84:	07d19463          	bne	s1,t3,ec <fail>
+
+00000088 <test_7>:
+  88:	00000093          	li	ra,0
+  8c:	fff00113          	li	s0,-1
+  90:	0220c1b3          	div	s1,ra,s0
+  94:	00000e93          	li	t3,0
+  98:	00700e13          	li	t2,7
+  9c:	05d19863          	bne	s1,t3,ec <fail>
+
+000000a0 <test_8>:
+  a0:	00000093          	li	ra,0
+  a4:	00000113          	li	s0,0
+  a8:	0220c1b3          	div	s1,ra,s0
+  ac:	fff00e93          	li	t3,-1
+  b0:	00800e13          	li	t2,8
+  b4:	03d19c63          	bne	s1,t3,ec <fail>
+
+000000b8 <test_9>:
+  b8:	00100093          	li	ra,1
+  bc:	00000113          	li	s0,0
+  c0:	0220c1b3          	div	s1,ra,s0
+  c4:	fff00e93          	li	t3,-1
+  c8:	00900e13          	li	t2,9
+  cc:	03d19063          	bne	s1,t3,ec <fail>
+
+000000d0 <test_10>:
+  d0:	00000093          	li	ra,0
+  d4:	00000113          	li	s0,0
+  d8:	0220c1b3          	div	s1,ra,s0
+  dc:	fff00e93          	li	t3,-1
+  e0:	00a00e13          	li	t2,10
+  e4:	01d19463          	bne	s1,t3,ec <fail>
+  e8:	01c01e63          	bne	zero,t2,104 <pass>
+
+000000ec <fail>:
+  ec:	0ff0000f          	fence
+  f0:	000e0863          	beqz	t2,100 <fail+0x14>
+  f4:	001e1e13          	slli	t2,t2,0x1
+  f8:	001e6e13          	ori	t2,t2,1
+  fc:	51ee1073          	csrw	tohost,t2
+ 100:	00000063          	b	100 <fail+0x14>
+
+00000104 <pass>:
+ 104:	0ff0000f          	fence
+ 108:	51e0d073          	csrwi	tohost,1
+ 10c:	00000063          	b	10c <pass+0x8>

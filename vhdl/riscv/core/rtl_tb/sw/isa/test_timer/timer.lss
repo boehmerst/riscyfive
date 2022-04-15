@@ -1,0 +1,69 @@
+
+timer.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000d0  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+  10:	00000593          	li	s9,0
+  14:	00000917          	auipc	a0,0x0
+  18:	09890913          	addi	a0,a0,152 # ac <handler>
+  1c:	50891073          	csrw	evec,a0
+  20:	50601073          	csrw	count,zero
+  24:	000019b7          	lui	a1,0x1
+  28:	38898993          	addi	a1,a1,904 # 1388 <_end+0x12b8>
+  2c:	50799073          	csrw	compare,a1
+  30:	00800937          	lui	a0,0x800
+  34:	00490913          	addi	a0,a0,4 # 800004 <_end+0x7fff34>
+  38:	50a92073          	csrs	status,a0
+  3c:	3ff00113          	li	s0,1023
+  40:	3ff00193          	li	s1,1023
+  44:	00000313          	li	s4,0
+  48:	00315213          	srli	s2,s0,0x3
+  4c:	00224233          	xor	s2,s2,s0
+  50:	00127213          	andi	s2,s2,1
+  54:	00115113          	srli	s0,s0,0x1
+  58:	00921213          	slli	s2,s2,0x9
+  5c:	00226133          	or	s0,s2,s0
+  60:	01611113          	slli	s0,s0,0x16
+  64:	01615113          	srli	s0,s0,0x16
+  68:	00130313          	addi	s4,s4,1
+  6c:	fc311ee3          	bne	s0,s1,48 <_start+0x48>
+  70:	50a27073          	csrci	status,4
+  74:	00200e13          	li	t2,2
+  78:	00058863          	beqz	s9,88 <fail>
+  7c:	00300e13          	li	t2,3
+  80:	00331463          	bne	s4,s1,88 <fail>
+  84:	01c01e63          	bne	zero,t2,a0 <pass>
+
+00000088 <fail>:
+  88:	0ff0000f          	fence
+  8c:	000e0863          	beqz	t2,9c <fail+0x14>
+  90:	001e1e13          	slli	t2,t2,0x1
+  94:	001e6e13          	ori	t2,t2,1
+  98:	51ee1073          	csrw	tohost,t2
+  9c:	00000063          	b	9c <fail+0x14>
+
+000000a0 <pass>:
+  a0:	0ff0000f          	fence
+  a4:	51e0d073          	csrwi	tohost,1
+  a8:	00000063          	b	a8 <pass+0x8>
+
+000000ac <handler>:
+  ac:	50902d73          	csrr	t0,cause
+  b0:	01100d93          	li	t1,17
+  b4:	fdbd1ae3          	bne	t0,t1,88 <fail>
+  b8:	50702d73          	csrr	t0,compare
+  bc:	063d0d13          	addi	t0,t0,99
+  c0:	507d1073          	csrw	compare,t0
+  c4:	00158593          	addi	s9,s9,1
+  c8:	80000073          	sret
+  cc:	00000013          	nop

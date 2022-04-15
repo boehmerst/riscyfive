@@ -1,0 +1,37 @@
+// memory data file (do not edit the following line - required for mem load use)
+// format=hex addressradix=h dataradix=h version=1.0 wordsperline=1
+@00000000
+50b02973
+00091063
+04000913
+50a93073
+00002917
+71c90913
+004009ef
+41390933
+00002eb7
+710e8e93
+00200e13
+03d91463
+ffffe917
+8fc90913
+004009ef
+41390933
+ffffeeb7
+8f0e8e93
+00300e13
+01d91463
+01c01e63
+0ff0000f
+000e0863
+001e1e13
+001e6e13
+51ee1073
+00000063
+0ff0000f
+51e0d073
+00000063
+00000013
+00000013
+ffffffff
+

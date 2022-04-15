@@ -1,0 +1,141 @@
+
+csr.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000180  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+  10:	00000d17          	auipc	t0,0x0
+  14:	128d0d13          	addi	t0,t0,296 # 138 <evec>
+  18:	508d1073          	csrw	evec,t0
+  1c:	50605073          	csrwi	count,0
+  20:	5001d073          	csrwi	sup0,3
+
+00000024 <test_2>:
+  24:	50002973          	csrr	a0,sup0
+  28:	00300e93          	li	t3,3
+  2c:	00200e13          	li	t2,2
+  30:	0fd91263          	bne	a0,t3,114 <fail>
+
+00000034 <test_3>:
+  34:	5000f9f3          	csrrc	a1,sup0,1
+  38:	00300e93          	li	t3,3
+  3c:	00300e13          	li	t2,3
+  40:	0dd99a63          	bne	a1,t3,114 <fail>
+
+00000044 <test_4>:
+  44:	50026a73          	csrrs	a2,sup0,4
+  48:	00200e93          	li	t3,2
+  4c:	00400e13          	li	t2,4
+  50:	0dda1263          	bne	a2,t3,114 <fail>
+
+00000054 <test_5>:
+  54:	50015af3          	csrrw	a3,sup0,2
+  58:	00600e93          	li	t3,6
+  5c:	00500e13          	li	t2,5
+  60:	0bda9a63          	bne	a3,t3,114 <fail>
+
+00000064 <test_6>:
+  64:	0bad2937          	lui	a0,0xbad2
+  68:	dea90913          	addi	a0,a0,-534 # bad1dea <begin_signature+0xbad1c6a>
+  6c:	500919f3          	csrrw	a1,sup0,a0
+  70:	00200e93          	li	t3,2
+  74:	00600e13          	li	t2,6
+  78:	09d99e63          	bne	a1,t3,114 <fail>
+
+0000007c <test_7>:
+  7c:	00002937          	lui	a0,0x2
+  80:	dea90913          	addi	a0,a0,-534 # 1dea <begin_signature+0x1c6a>
+  84:	50093973          	csrrc	a0,sup0,a0
+  88:	0bad2eb7          	lui	t3,0xbad2
+  8c:	deae8e93          	addi	t3,t3,-534 # bad1dea <begin_signature+0xbad1c6a>
+  90:	00700e13          	li	t2,7
+  94:	09d91063          	bne	a0,t3,114 <fail>
+
+00000098 <test_8>:
+  98:	0000c937          	lui	a0,0xc
+  9c:	eef90913          	addi	a0,a0,-273 # beef <begin_signature+0xbd6f>
+  a0:	50092973          	csrrs	a0,sup0,a0
+  a4:	0bad0eb7          	lui	t3,0xbad0
+  a8:	00800e13          	li	t2,8
+  ac:	07d91463          	bne	a0,t3,114 <fail>
+
+000000b0 <test_9>:
+  b0:	50002973          	csrr	a0,sup0
+  b4:	0badceb7          	lui	t3,0xbadc
+  b8:	eefe8e93          	addi	t3,t3,-273 # badbeef <begin_signature+0xbadbd6f>
+  bc:	00900e13          	li	t2,9
+  c0:	05d91a63          	bne	a0,t3,114 <fail>
+
+000000c4 <test_10>:
+  c4:	0ff00913          	li	a0,255
+  c8:	c0001973          	csrrw	a0,cycle,zero
+  cc:	0ff00e93          	li	t3,255
+  d0:	00a00e13          	li	t2,10
+  d4:	05d91063          	bne	a0,t3,114 <fail>
+  d8:	50a1f073          	csrci	status,3
+
+000000dc <test_11>:
+  dc:	0ff00913          	li	a0,255
+  e0:	50a02973          	csrr	a0,status
+  e4:	0ff00e93          	li	t3,255
+  e8:	00b00e13          	li	t2,11
+  ec:	03d91463          	bne	a0,t3,114 <fail>
+
+000000f0 <test_12>:
+  f0:	c0002973          	rdcycle	a0
+  f4:	00000e93          	li	t3,0
+  f8:	00c00e13          	li	t2,12
+  fc:	01d01c63          	bne	zero,t3,114 <fail>
+
+00000100 <test_13>:
+ 100:	00000073          	scall
+ 104:	00100e93          	li	t3,1
+ 108:	00d00e13          	li	t2,13
+ 10c:	01d01463          	bne	zero,t3,114 <fail>
+ 110:	01c01e63          	bne	zero,t2,12c <pass>
+
+00000114 <fail>:
+ 114:	0ff0000f          	fence
+ 118:	000e0863          	beqz	t2,128 <fail+0x14>
+ 11c:	001e1e13          	slli	t2,t2,0x1
+ 120:	001e6e13          	ori	t2,t2,1
+ 124:	51ee1073          	csrw	tohost,t2
+ 128:	00000063          	b	128 <fail+0x14>
+
+0000012c <pass>:
+ 12c:	0ff0000f          	fence
+ 130:	51e0d073          	csrwi	tohost,1
+ 134:	00000063          	b	134 <pass+0x8>
+
+00000138 <evec>:
+ 138:	00900d13          	li	t0,9
+ 13c:	01ae0c63          	beq	t2,t0,154 <privileged>
+ 140:	00a00d13          	li	t0,10
+ 144:	01ae0863          	beq	t2,t0,154 <privileged>
+ 148:	00c00d13          	li	t0,12
+ 14c:	03ae0263          	beq	t2,t0,170 <syscall>
+ 150:	fc5ff06f          	j	114 <fail>
+
+00000154 <privileged>:
+ 154:	50902d73          	csrr	t0,cause
+ 158:	00300d93          	li	t1,3
+ 15c:	fbbd1ce3          	bne	t0,t1,114 <fail>
+ 160:	50202d73          	csrr	t0,epc
+ 164:	004d0d13          	addi	t0,t0,4
+ 168:	502d1073          	csrw	epc,t0
+ 16c:	80000073          	sret
+
+00000170 <syscall>:
+ 170:	50902d73          	csrr	t0,cause
+ 174:	00600d93          	li	t1,6
+ 178:	f9bd1ee3          	bne	t0,t1,114 <fail>
+ 17c:	fb1ff06f          	j	12c <pass>

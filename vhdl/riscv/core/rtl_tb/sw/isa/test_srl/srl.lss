@@ -1,0 +1,479 @@
+
+srl.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000005f0  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+
+00000010 <test_2>:
+  10:	ffff80b7          	lui	ra,0xffff8
+  14:	00000113          	li	s0,0
+  18:	0020d1b3          	srl	s1,ra,s0
+  1c:	ffff8eb7          	lui	t3,0xffff8
+  20:	00200e13          	li	t2,2
+  24:	5bd19463          	bne	s1,t3,5cc <fail>
+
+00000028 <test_3>:
+  28:	ffff80b7          	lui	ra,0xffff8
+  2c:	00100113          	li	s0,1
+  30:	0020d1b3          	srl	s1,ra,s0
+  34:	7fffceb7          	lui	t3,0x7fffc
+  38:	00300e13          	li	t2,3
+  3c:	59d19863          	bne	s1,t3,5cc <fail>
+
+00000040 <test_4>:
+  40:	ffff80b7          	lui	ra,0xffff8
+  44:	00700113          	li	s0,7
+  48:	0020d1b3          	srl	s1,ra,s0
+  4c:	02000eb7          	lui	t3,0x2000
+  50:	f00e8e93          	addi	t3,t3,-256 # 1ffff00 <begin_signature+0x1fff910>
+  54:	00400e13          	li	t2,4
+  58:	57d19a63          	bne	s1,t3,5cc <fail>
+
+0000005c <test_5>:
+  5c:	ffff80b7          	lui	ra,0xffff8
+  60:	00e00113          	li	s0,14
+  64:	0020d1b3          	srl	s1,ra,s0
+  68:	00040eb7          	lui	t3,0x40
+  6c:	ffee8e93          	addi	t3,t3,-2 # 3fffe <begin_signature+0x3fa0e>
+  70:	00500e13          	li	t2,5
+  74:	55d19c63          	bne	s1,t3,5cc <fail>
+
+00000078 <test_6>:
+  78:	ffff80b7          	lui	ra,0xffff8
+  7c:	00108093          	addi	ra,ra,1 # ffff8001 <begin_signature+0xffff7a11>
+  80:	00f00113          	li	s0,15
+  84:	0020d1b3          	srl	s1,ra,s0
+  88:	00020eb7          	lui	t3,0x20
+  8c:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+  90:	00600e13          	li	t2,6
+  94:	53d19c63          	bne	s1,t3,5cc <fail>
+
+00000098 <test_7>:
+  98:	fff00093          	li	ra,-1
+  9c:	00000113          	li	s0,0
+  a0:	0020d1b3          	srl	s1,ra,s0
+  a4:	fff00e93          	li	t3,-1
+  a8:	00700e13          	li	t2,7
+  ac:	53d19063          	bne	s1,t3,5cc <fail>
+
+000000b0 <test_8>:
+  b0:	fff00093          	li	ra,-1
+  b4:	00100113          	li	s0,1
+  b8:	0020d1b3          	srl	s1,ra,s0
+  bc:	80000eb7          	lui	t3,0x80000
+  c0:	fffe8e93          	addi	t3,t3,-1 # 7fffffff <begin_signature+0x7ffffa0f>
+  c4:	00800e13          	li	t2,8
+  c8:	51d19263          	bne	s1,t3,5cc <fail>
+
+000000cc <test_9>:
+  cc:	fff00093          	li	ra,-1
+  d0:	00700113          	li	s0,7
+  d4:	0020d1b3          	srl	s1,ra,s0
+  d8:	02000eb7          	lui	t3,0x2000
+  dc:	fffe8e93          	addi	t3,t3,-1 # 1ffffff <begin_signature+0x1fffa0f>
+  e0:	00900e13          	li	t2,9
+  e4:	4fd19463          	bne	s1,t3,5cc <fail>
+
+000000e8 <test_10>:
+  e8:	fff00093          	li	ra,-1
+  ec:	00e00113          	li	s0,14
+  f0:	0020d1b3          	srl	s1,ra,s0
+  f4:	00040eb7          	lui	t3,0x40
+  f8:	fffe8e93          	addi	t3,t3,-1 # 3ffff <begin_signature+0x3fa0f>
+  fc:	00a00e13          	li	t2,10
+ 100:	4dd19663          	bne	s1,t3,5cc <fail>
+
+00000104 <test_11>:
+ 104:	fff00093          	li	ra,-1
+ 108:	01f00113          	li	s0,31
+ 10c:	0020d1b3          	srl	s1,ra,s0
+ 110:	00100e93          	li	t3,1
+ 114:	00b00e13          	li	t2,11
+ 118:	4bd19a63          	bne	s1,t3,5cc <fail>
+
+0000011c <test_12>:
+ 11c:	212120b7          	lui	ra,0x21212
+ 120:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 124:	00000113          	li	s0,0
+ 128:	0020d1b3          	srl	s1,ra,s0
+ 12c:	21212eb7          	lui	t3,0x21212
+ 130:	121e8e93          	addi	t3,t3,289 # 21212121 <begin_signature+0x21211b31>
+ 134:	00c00e13          	li	t2,12
+ 138:	49d19a63          	bne	s1,t3,5cc <fail>
+
+0000013c <test_13>:
+ 13c:	212120b7          	lui	ra,0x21212
+ 140:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 144:	00100113          	li	s0,1
+ 148:	0020d1b3          	srl	s1,ra,s0
+ 14c:	10909eb7          	lui	t3,0x10909
+ 150:	090e8e93          	addi	t3,t3,144 # 10909090 <begin_signature+0x10908aa0>
+ 154:	00d00e13          	li	t2,13
+ 158:	47d19a63          	bne	s1,t3,5cc <fail>
+
+0000015c <test_14>:
+ 15c:	212120b7          	lui	ra,0x21212
+ 160:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 164:	00700113          	li	s0,7
+ 168:	0020d1b3          	srl	s1,ra,s0
+ 16c:	00424eb7          	lui	t3,0x424
+ 170:	242e8e93          	addi	t3,t3,578 # 424242 <begin_signature+0x423c52>
+ 174:	00e00e13          	li	t2,14
+ 178:	45d19a63          	bne	s1,t3,5cc <fail>
+
+0000017c <test_15>:
+ 17c:	212120b7          	lui	ra,0x21212
+ 180:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 184:	00e00113          	li	s0,14
+ 188:	0020d1b3          	srl	s1,ra,s0
+ 18c:	00008eb7          	lui	t3,0x8
+ 190:	484e8e93          	addi	t3,t3,1156 # 8484 <begin_signature+0x7e94>
+ 194:	00f00e13          	li	t2,15
+ 198:	43d19a63          	bne	s1,t3,5cc <fail>
+
+0000019c <test_16>:
+ 19c:	212120b7          	lui	ra,0x21212
+ 1a0:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 1a4:	01f00113          	li	s0,31
+ 1a8:	0020d1b3          	srl	s1,ra,s0
+ 1ac:	00000e93          	li	t3,0
+ 1b0:	01000e13          	li	t2,16
+ 1b4:	41d19c63          	bne	s1,t3,5cc <fail>
+
+000001b8 <test_17>:
+ 1b8:	212120b7          	lui	ra,0x21212
+ 1bc:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 1c0:	fe000113          	li	s0,-32
+ 1c4:	0020d1b3          	srl	s1,ra,s0
+ 1c8:	21212eb7          	lui	t3,0x21212
+ 1cc:	121e8e93          	addi	t3,t3,289 # 21212121 <begin_signature+0x21211b31>
+ 1d0:	01100e13          	li	t2,17
+ 1d4:	3fd19c63          	bne	s1,t3,5cc <fail>
+
+000001d8 <test_18>:
+ 1d8:	212120b7          	lui	ra,0x21212
+ 1dc:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 1e0:	fe100113          	li	s0,-31
+ 1e4:	0020d1b3          	srl	s1,ra,s0
+ 1e8:	10909eb7          	lui	t3,0x10909
+ 1ec:	090e8e93          	addi	t3,t3,144 # 10909090 <begin_signature+0x10908aa0>
+ 1f0:	01200e13          	li	t2,18
+ 1f4:	3dd19c63          	bne	s1,t3,5cc <fail>
+
+000001f8 <test_19>:
+ 1f8:	212120b7          	lui	ra,0x21212
+ 1fc:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 200:	fe700113          	li	s0,-25
+ 204:	0020d1b3          	srl	s1,ra,s0
+ 208:	00424eb7          	lui	t3,0x424
+ 20c:	242e8e93          	addi	t3,t3,578 # 424242 <begin_signature+0x423c52>
+ 210:	01300e13          	li	t2,19
+ 214:	3bd19c63          	bne	s1,t3,5cc <fail>
+
+00000218 <test_20>:
+ 218:	212120b7          	lui	ra,0x21212
+ 21c:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 220:	fee00113          	li	s0,-18
+ 224:	0020d1b3          	srl	s1,ra,s0
+ 228:	00008eb7          	lui	t3,0x8
+ 22c:	484e8e93          	addi	t3,t3,1156 # 8484 <begin_signature+0x7e94>
+ 230:	01400e13          	li	t2,20
+ 234:	39d19c63          	bne	s1,t3,5cc <fail>
+
+00000238 <test_21>:
+ 238:	212120b7          	lui	ra,0x21212
+ 23c:	12108093          	addi	ra,ra,289 # 21212121 <begin_signature+0x21211b31>
+ 240:	fff00113          	li	s0,-1
+ 244:	0020d1b3          	srl	s1,ra,s0
+ 248:	00000e93          	li	t3,0
+ 24c:	01500e13          	li	t2,21
+ 250:	37d19e63          	bne	s1,t3,5cc <fail>
+
+00000254 <test_22>:
+ 254:	ffff80b7          	lui	ra,0xffff8
+ 258:	00100113          	li	s0,1
+ 25c:	0020d0b3          	srl	ra,ra,s0
+ 260:	7fffceb7          	lui	t3,0x7fffc
+ 264:	01600e13          	li	t2,22
+ 268:	37d09263          	bne	ra,t3,5cc <fail>
+
+0000026c <test_23>:
+ 26c:	ffff80b7          	lui	ra,0xffff8
+ 270:	00e00113          	li	s0,14
+ 274:	0020d133          	srl	s0,ra,s0
+ 278:	00040eb7          	lui	t3,0x40
+ 27c:	ffee8e93          	addi	t3,t3,-2 # 3fffe <begin_signature+0x3fa0e>
+ 280:	01700e13          	li	t2,23
+ 284:	35d11463          	bne	s0,t3,5cc <fail>
+
+00000288 <test_24>:
+ 288:	00700093          	li	ra,7
+ 28c:	0010d0b3          	srl	ra,ra,ra
+ 290:	00000e93          	li	t3,0
+ 294:	01800e13          	li	t2,24
+ 298:	33d09a63          	bne	ra,t3,5cc <fail>
+
+0000029c <test_25>:
+ 29c:	00000213          	li	s2,0
+ 2a0:	ffff80b7          	lui	ra,0xffff8
+ 2a4:	00100113          	li	s0,1
+ 2a8:	0020d1b3          	srl	s1,ra,s0
+ 2ac:	00018313          	mv	s4,s1
+ 2b0:	00120213          	addi	s2,s2,1
+ 2b4:	00200293          	li	s3,2
+ 2b8:	fe5214e3          	bne	s2,s3,2a0 <test_25+0x4>
+ 2bc:	7fffceb7          	lui	t3,0x7fffc
+ 2c0:	01900e13          	li	t2,25
+ 2c4:	31d31463          	bne	s4,t3,5cc <fail>
+
+000002c8 <test_26>:
+ 2c8:	00000213          	li	s2,0
+ 2cc:	ffff80b7          	lui	ra,0xffff8
+ 2d0:	00e00113          	li	s0,14
+ 2d4:	0020d1b3          	srl	s1,ra,s0
+ 2d8:	00000013          	nop
+ 2dc:	00018313          	mv	s4,s1
+ 2e0:	00120213          	addi	s2,s2,1
+ 2e4:	00200293          	li	s3,2
+ 2e8:	fe5212e3          	bne	s2,s3,2cc <test_26+0x4>
+ 2ec:	00040eb7          	lui	t3,0x40
+ 2f0:	ffee8e93          	addi	t3,t3,-2 # 3fffe <begin_signature+0x3fa0e>
+ 2f4:	01a00e13          	li	t2,26
+ 2f8:	2dd31a63          	bne	s4,t3,5cc <fail>
+
+000002fc <test_27>:
+ 2fc:	00000213          	li	s2,0
+ 300:	ffff80b7          	lui	ra,0xffff8
+ 304:	00f00113          	li	s0,15
+ 308:	0020d1b3          	srl	s1,ra,s0
+ 30c:	00000013          	nop
+ 310:	00000013          	nop
+ 314:	00018313          	mv	s4,s1
+ 318:	00120213          	addi	s2,s2,1
+ 31c:	00200293          	li	s3,2
+ 320:	fe5210e3          	bne	s2,s3,300 <test_27+0x4>
+ 324:	00020eb7          	lui	t3,0x20
+ 328:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+ 32c:	01b00e13          	li	t2,27
+ 330:	29d31e63          	bne	s4,t3,5cc <fail>
+
+00000334 <test_28>:
+ 334:	00000213          	li	s2,0
+ 338:	ffff80b7          	lui	ra,0xffff8
+ 33c:	00100113          	li	s0,1
+ 340:	0020d1b3          	srl	s1,ra,s0
+ 344:	00120213          	addi	s2,s2,1
+ 348:	00200293          	li	s3,2
+ 34c:	fe5216e3          	bne	s2,s3,338 <test_28+0x4>
+ 350:	7fffceb7          	lui	t3,0x7fffc
+ 354:	01c00e13          	li	t2,28
+ 358:	27d19a63          	bne	s1,t3,5cc <fail>
+
+0000035c <test_29>:
+ 35c:	00000213          	li	s2,0
+ 360:	ffff80b7          	lui	ra,0xffff8
+ 364:	00700113          	li	s0,7
+ 368:	00000013          	nop
+ 36c:	0020d1b3          	srl	s1,ra,s0
+ 370:	00120213          	addi	s2,s2,1
+ 374:	00200293          	li	s3,2
+ 378:	fe5214e3          	bne	s2,s3,360 <test_29+0x4>
+ 37c:	02000eb7          	lui	t3,0x2000
+ 380:	f00e8e93          	addi	t3,t3,-256 # 1ffff00 <begin_signature+0x1fff910>
+ 384:	01d00e13          	li	t2,29
+ 388:	25d19263          	bne	s1,t3,5cc <fail>
+
+0000038c <test_30>:
+ 38c:	00000213          	li	s2,0
+ 390:	ffff80b7          	lui	ra,0xffff8
+ 394:	00f00113          	li	s0,15
+ 398:	00000013          	nop
+ 39c:	00000013          	nop
+ 3a0:	0020d1b3          	srl	s1,ra,s0
+ 3a4:	00120213          	addi	s2,s2,1
+ 3a8:	00200293          	li	s3,2
+ 3ac:	fe5212e3          	bne	s2,s3,390 <test_30+0x4>
+ 3b0:	00020eb7          	lui	t3,0x20
+ 3b4:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+ 3b8:	01e00e13          	li	t2,30
+ 3bc:	21d19863          	bne	s1,t3,5cc <fail>
+
+000003c0 <test_31>:
+ 3c0:	00000213          	li	s2,0
+ 3c4:	ffff80b7          	lui	ra,0xffff8
+ 3c8:	00000013          	nop
+ 3cc:	00100113          	li	s0,1
+ 3d0:	0020d1b3          	srl	s1,ra,s0
+ 3d4:	00120213          	addi	s2,s2,1
+ 3d8:	00200293          	li	s3,2
+ 3dc:	fe5214e3          	bne	s2,s3,3c4 <test_31+0x4>
+ 3e0:	7fffceb7          	lui	t3,0x7fffc
+ 3e4:	01f00e13          	li	t2,31
+ 3e8:	1fd19263          	bne	s1,t3,5cc <fail>
+
+000003ec <test_32>:
+ 3ec:	00000213          	li	s2,0
+ 3f0:	ffff80b7          	lui	ra,0xffff8
+ 3f4:	00000013          	nop
+ 3f8:	00700113          	li	s0,7
+ 3fc:	00000013          	nop
+ 400:	0020d1b3          	srl	s1,ra,s0
+ 404:	00120213          	addi	s2,s2,1
+ 408:	00200293          	li	s3,2
+ 40c:	fe5212e3          	bne	s2,s3,3f0 <test_32+0x4>
+ 410:	02000eb7          	lui	t3,0x2000
+ 414:	f00e8e93          	addi	t3,t3,-256 # 1ffff00 <begin_signature+0x1fff910>
+ 418:	02000e13          	li	t2,32
+ 41c:	1bd19863          	bne	s1,t3,5cc <fail>
+
+00000420 <test_33>:
+ 420:	00000213          	li	s2,0
+ 424:	ffff80b7          	lui	ra,0xffff8
+ 428:	00000013          	nop
+ 42c:	00000013          	nop
+ 430:	00f00113          	li	s0,15
+ 434:	0020d1b3          	srl	s1,ra,s0
+ 438:	00120213          	addi	s2,s2,1
+ 43c:	00200293          	li	s3,2
+ 440:	fe5212e3          	bne	s2,s3,424 <test_33+0x4>
+ 444:	00020eb7          	lui	t3,0x20
+ 448:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+ 44c:	02100e13          	li	t2,33
+ 450:	17d19e63          	bne	s1,t3,5cc <fail>
+
+00000454 <test_34>:
+ 454:	00000213          	li	s2,0
+ 458:	00100113          	li	s0,1
+ 45c:	ffff80b7          	lui	ra,0xffff8
+ 460:	0020d1b3          	srl	s1,ra,s0
+ 464:	00120213          	addi	s2,s2,1
+ 468:	00200293          	li	s3,2
+ 46c:	fe5216e3          	bne	s2,s3,458 <test_34+0x4>
+ 470:	7fffceb7          	lui	t3,0x7fffc
+ 474:	02200e13          	li	t2,34
+ 478:	15d19a63          	bne	s1,t3,5cc <fail>
+
+0000047c <test_35>:
+ 47c:	00000213          	li	s2,0
+ 480:	00700113          	li	s0,7
+ 484:	ffff80b7          	lui	ra,0xffff8
+ 488:	00000013          	nop
+ 48c:	0020d1b3          	srl	s1,ra,s0
+ 490:	00120213          	addi	s2,s2,1
+ 494:	00200293          	li	s3,2
+ 498:	fe5214e3          	bne	s2,s3,480 <test_35+0x4>
+ 49c:	02000eb7          	lui	t3,0x2000
+ 4a0:	f00e8e93          	addi	t3,t3,-256 # 1ffff00 <begin_signature+0x1fff910>
+ 4a4:	02300e13          	li	t2,35
+ 4a8:	13d19263          	bne	s1,t3,5cc <fail>
+
+000004ac <test_36>:
+ 4ac:	00000213          	li	s2,0
+ 4b0:	00f00113          	li	s0,15
+ 4b4:	ffff80b7          	lui	ra,0xffff8
+ 4b8:	00000013          	nop
+ 4bc:	00000013          	nop
+ 4c0:	0020d1b3          	srl	s1,ra,s0
+ 4c4:	00120213          	addi	s2,s2,1
+ 4c8:	00200293          	li	s3,2
+ 4cc:	fe5212e3          	bne	s2,s3,4b0 <test_36+0x4>
+ 4d0:	00020eb7          	lui	t3,0x20
+ 4d4:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+ 4d8:	02400e13          	li	t2,36
+ 4dc:	0fd19863          	bne	s1,t3,5cc <fail>
+
+000004e0 <test_37>:
+ 4e0:	00000213          	li	s2,0
+ 4e4:	00100113          	li	s0,1
+ 4e8:	00000013          	nop
+ 4ec:	ffff80b7          	lui	ra,0xffff8
+ 4f0:	0020d1b3          	srl	s1,ra,s0
+ 4f4:	00120213          	addi	s2,s2,1
+ 4f8:	00200293          	li	s3,2
+ 4fc:	fe5214e3          	bne	s2,s3,4e4 <test_37+0x4>
+ 500:	7fffceb7          	lui	t3,0x7fffc
+ 504:	02500e13          	li	t2,37
+ 508:	0dd19263          	bne	s1,t3,5cc <fail>
+
+0000050c <test_38>:
+ 50c:	00000213          	li	s2,0
+ 510:	00700113          	li	s0,7
+ 514:	00000013          	nop
+ 518:	ffff80b7          	lui	ra,0xffff8
+ 51c:	00000013          	nop
+ 520:	0020d1b3          	srl	s1,ra,s0
+ 524:	00120213          	addi	s2,s2,1
+ 528:	00200293          	li	s3,2
+ 52c:	fe5212e3          	bne	s2,s3,510 <test_38+0x4>
+ 530:	02000eb7          	lui	t3,0x2000
+ 534:	f00e8e93          	addi	t3,t3,-256 # 1ffff00 <begin_signature+0x1fff910>
+ 538:	02600e13          	li	t2,38
+ 53c:	09d19863          	bne	s1,t3,5cc <fail>
+
+00000540 <test_39>:
+ 540:	00000213          	li	s2,0
+ 544:	00f00113          	li	s0,15
+ 548:	00000013          	nop
+ 54c:	00000013          	nop
+ 550:	ffff80b7          	lui	ra,0xffff8
+ 554:	0020d1b3          	srl	s1,ra,s0
+ 558:	00120213          	addi	s2,s2,1
+ 55c:	00200293          	li	s3,2
+ 560:	fe5212e3          	bne	s2,s3,544 <test_39+0x4>
+ 564:	00020eb7          	lui	t3,0x20
+ 568:	fffe8e93          	addi	t3,t3,-1 # 1ffff <begin_signature+0x1fa0f>
+ 56c:	02700e13          	li	t2,39
+ 570:	05d19e63          	bne	s1,t3,5cc <fail>
+
+00000574 <test_40>:
+ 574:	00f00093          	li	ra,15
+ 578:	00105133          	srl	s0,zero,ra
+ 57c:	00000e93          	li	t3,0
+ 580:	02800e13          	li	t2,40
+ 584:	05d11463          	bne	s0,t3,5cc <fail>
+
+00000588 <test_41>:
+ 588:	02000093          	li	ra,32
+ 58c:	0000d133          	srl	s0,ra,zero
+ 590:	02000e93          	li	t3,32
+ 594:	02900e13          	li	t2,41
+ 598:	03d11a63          	bne	s0,t3,5cc <fail>
+
+0000059c <test_42>:
+ 59c:	000050b3          	srl	ra,zero,zero
+ 5a0:	00000e93          	li	t3,0
+ 5a4:	02a00e13          	li	t2,42
+ 5a8:	03d09263          	bne	ra,t3,5cc <fail>
+
+000005ac <test_43>:
+ 5ac:	40000093          	li	ra,1024
+ 5b0:	00001137          	lui	s0,0x1
+ 5b4:	80010113          	addi	s0,s0,-2048 # 800 <begin_signature+0x210>
+ 5b8:	0020d033          	srl	zero,ra,s0
+ 5bc:	00000e93          	li	t3,0
+ 5c0:	02b00e13          	li	t2,43
+ 5c4:	01d01463          	bne	zero,t3,5cc <fail>
+ 5c8:	01c01e63          	bne	zero,t2,5e4 <pass>
+
+000005cc <fail>:
+ 5cc:	0ff0000f          	fence
+ 5d0:	000e0863          	beqz	t2,5e0 <fail+0x14>
+ 5d4:	001e1e13          	slli	t2,t2,0x1
+ 5d8:	001e6e13          	ori	t2,t2,1
+ 5dc:	51ee1073          	csrw	tohost,t2
+ 5e0:	00000063          	b	5e0 <fail+0x14>
+
+000005e4 <pass>:
+ 5e4:	0ff0000f          	fence
+ 5e8:	51e0d073          	csrwi	tohost,1
+ 5ec:	00000063          	b	5ec <pass+0x8>

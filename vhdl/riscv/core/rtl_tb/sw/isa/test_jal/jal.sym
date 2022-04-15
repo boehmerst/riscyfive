@@ -1,0 +1,10 @@
+00000000 T _start
+00000010 t test_2
+00000018 t linkaddr_2
+00000028 t target_2
+00000038 t test_3
+00000068 t fail
+00000080 t pass
+00000090 A _end
+00000090 T begin_signature
+00000090 T end_signature

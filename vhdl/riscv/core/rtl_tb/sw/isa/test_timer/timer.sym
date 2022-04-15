@@ -1,0 +1,5 @@
+00000000 T _start
+00000088 t fail
+000000a0 t pass
+000000ac t handler
+000000d0 A _end

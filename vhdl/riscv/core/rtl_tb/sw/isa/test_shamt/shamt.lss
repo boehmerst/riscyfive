@@ -1,0 +1,53 @@
+
+shamt.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000080  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+  10:	00000d17          	auipc	t0,0x0
+  14:	058d0d13          	addi	t0,t0,88 # 68 <evec>
+  18:	508d1073          	csrw	evec,t0
+
+0000001c <test_2>:
+  1c:	00100913          	li	a0,1
+  20:	01091913          	slli	a0,a0,0x10
+  24:	00010eb7          	lui	t3,0x10
+  28:	00200e13          	li	t2,2
+  2c:	01d91c63          	bne	a0,t3,44 <fail>
+
+00000030 <test_3>:
+  30:	02091913          	slli	a0,a0,0x20
+  34:	00100e93          	li	t3,1
+  38:	00300e13          	li	t2,3
+  3c:	01d01463          	bne	zero,t3,44 <fail>
+  40:	01c01e63          	bne	zero,t2,5c <pass>
+
+00000044 <fail>:
+  44:	0ff0000f          	fence
+  48:	000e0863          	beqz	t2,58 <fail+0x14>
+  4c:	001e1e13          	slli	t2,t2,0x1
+  50:	001e6e13          	ori	t2,t2,1
+  54:	51ee1073          	csrw	tohost,t2
+  58:	00000063          	b	58 <fail+0x14>
+
+0000005c <pass>:
+  5c:	0ff0000f          	fence
+  60:	51e0d073          	csrwi	tohost,1
+  64:	00000063          	b	64 <pass+0x8>
+
+00000068 <evec>:
+  68:	00200d13          	li	t0,2
+  6c:	fdae1ce3          	bne	t2,t0,44 <fail>
+  70:	50902d73          	csrr	t0,cause
+  74:	00200d93          	li	t1,2
+  78:	fdbd16e3          	bne	t0,t1,44 <fail>
+  7c:	fe1ff06f          	j	5c <pass>

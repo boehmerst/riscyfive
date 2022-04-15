@@ -1,0 +1,59 @@
+
+jal.elf:     file format elf32-littleriscv
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000090  00000000  00000000  00001000  2**4
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+
+Disassembly of section .text:
+
+00000000 <_start>:
+   0:	50b02973          	csrr	a0,hartid
+   4:	00091063          	bnez	a0,4 <_start+0x4>
+   8:	04000913          	li	a0,64
+   c:	50a93073          	csrc	status,a0
+
+00000010 <test_2>:
+  10:	00200e13          	li	t2,2
+  14:	00000093          	li	ra,0
+
+00000018 <linkaddr_2>:
+  18:	010000ef          	jal	28 <target_2>
+  1c:	00000013          	nop
+  20:	00000013          	nop
+  24:	0440006f          	j	68 <fail>
+
+00000028 <target_2>:
+  28:	00000117          	auipc	s0,0x0
+  2c:	ff010113          	addi	s0,s0,-16 # 18 <linkaddr_2>
+  30:	00410113          	addi	s0,s0,4
+  34:	02111a63          	bne	s0,ra,68 <fail>
+
+00000038 <test_3>:
+  38:	00100113          	li	s0,1
+  3c:	014000ef          	jal	50 <test_3+0x18>
+  40:	00110113          	addi	s0,s0,1
+  44:	00110113          	addi	s0,s0,1
+  48:	00110113          	addi	s0,s0,1
+  4c:	00110113          	addi	s0,s0,1
+  50:	00110113          	addi	s0,s0,1
+  54:	00110113          	addi	s0,s0,1
+  58:	00300e93          	li	t3,3
+  5c:	00300e13          	li	t2,3
+  60:	01d11463          	bne	s0,t3,68 <fail>
+  64:	01c01e63          	bne	zero,t2,80 <pass>
+
+00000068 <fail>:
+  68:	0ff0000f          	fence
+  6c:	000e0863          	beqz	t2,7c <fail+0x14>
+  70:	001e1e13          	slli	t2,t2,0x1
+  74:	001e6e13          	ori	t2,t2,1
+  78:	51ee1073          	csrw	tohost,t2
+  7c:	00000063          	b	7c <fail+0x14>
+
+00000080 <pass>:
+  80:	0ff0000f          	fence
+  84:	51e0d073          	csrwi	tohost,1
+  88:	00000063          	b	88 <pass+0x8>
+  8c:	00000013          	nop
