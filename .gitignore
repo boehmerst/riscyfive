@@ -1,1 +1,5 @@
+*.mk
+.riscv.sh
+makefile
+build
 flow
